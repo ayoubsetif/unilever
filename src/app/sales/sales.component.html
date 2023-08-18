@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="vs-buttons">
+        <div class="vs-import">
+            <input hidden  type='file' #dmsbtn accept=".xlsm" (change)="uploadFile($event)">
+            <button mat-raised-button color="primary" (click)="dmsbtn.click()">Import sales invoices</button>
+        </div>
+        
+        <mat-form-field>
+            <mat-select [disabled]="!salesmanList.length" (selectionChange)="selectVendor($event)"  placeholder="Choisir salesman" multiple>
+                <mat-option *ngFor="let vendor of salesmanList" [value]="vendor">
+                    {{vendor}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <div class="vs-import">
+            <button class="group-sales" mat-raised-button color="primary" (click)="download()" [disabled]="!sales.length">Download Single Files</button>
+            <button class="group-sales" mat-raised-button color="primary" (click)="downloadGroupedSales()" [disabled]="!sales.length">Download Grouped Sales</button>
+        </div>
+    </div>
+</div>
+

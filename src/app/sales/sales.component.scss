@@ -1,0 +1,26 @@
+.container {
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+.mat-mdc-form-field {
+	width: 300px;
+}
+.vs-buttons {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.vs-import {
+	display: flex;
+	flex-direction: column;
+	margin-right: 10px;
+	align-self: baseline;
+	button {
+		margin: 2%;
+	}
+}
+.group-sales {
+	width: 230px;
+}
