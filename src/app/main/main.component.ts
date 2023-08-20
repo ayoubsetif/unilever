@@ -22,7 +22,7 @@ export class MainComponent {
 			const arr = XLSX.utils.sheet_to_json(worksheet, {raw: true });
 
 			const config = _.keyBy(arr, 'clientSAS');
-			localStorage.setItem('config', JSON.stringify(config));
+			localStorage.setItem('configUnilever', JSON.stringify(config));
 			this.snackBar.open('Configuration saved', 'Ok', { duration : 7000 });
 		};
 		fileReader.readAsArrayBuffer(this.file);
