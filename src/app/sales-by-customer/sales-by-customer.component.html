@@ -20,7 +20,10 @@
         </mat-form-field>
        
         <div class="vs-import">
-            <button class="group-sales" mat-raised-button color="primary" (click)="download()" [disabled]="!sales.length">Download Single Files</button>
+            <div class="single-file">
+                <button class="group-sales" mat-raised-button color="primary" (click)="download()" [disabled]="!sales.length">Télécharger par client</button><p *ngIf="sales.length">chaque order dans un fichier</p>
+            </div>
+            <button class="group-sales" mat-raised-button color="primary" (click)="downloadSingle()" [disabled]="!sales.length">Télécharger par client </button>
             <button class="group-sales" mat-raised-button color="primary" (click)="downloadGroupedSales()" [disabled]="!sales.length">Download Grouped Sales</button>
         </div>
     </div>

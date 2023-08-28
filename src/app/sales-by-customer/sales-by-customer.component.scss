@@ -9,7 +9,7 @@
 .vs-buttons {
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: flex-start; //center
 }
 
 .vs-import {
@@ -22,10 +22,19 @@
 	}
 }
 .group-sales {
-	width: 230px;
+	width: 250px;
 }
 
 .select-customer {
 	margin-left: 10px;
 	margin-right: 10px;
+}
+.single-file {
+	display: flex;
+	p {
+		width: 300px;
+		font-size: 13px;
+		align-self: center;
+		color: red;
+	}
 }

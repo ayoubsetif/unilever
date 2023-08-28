@@ -108,6 +108,20 @@ export class SalesByCustomerComponent {
 		});
 	}
 
+	downloadSingle() {
+		const vendorSales = JSON.parse(JSON.stringify(this.sales));
+		vendorSales.forEach((v:any) => {
+			v.sales.map((m:any) => m[5] = m[4] * m[3]);
+			v.sales.unshift(['Code Article', 'Article', 'Quantité conditionnée ', 'Quantité', 'Prix unitaire', 'Sous-total'  ])
+			const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(v.sales);
+			/* generate workbook and add the worksheet */
+			const wb: XLSX.WorkBook = XLSX.utils.book_new();
+			XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+			/* save to file */
+			XLSX.writeFile(wb, `${v.name}.xlsx`);
+		});
+	}
+
 	downloadGroupedSales() {
 		const vendorSales = JSON.parse(JSON.stringify(this.sales));
 		vendorSales.forEach((v:any) => {
@@ -140,7 +154,7 @@ export class SalesByCustomerComponent {
 		XLSX.writeFile(wb, `Vente Globale.xlsx`);
 	}
 
-  readFile(fileReader: any) {
+    readFile(fileReader: any) {
 		this.arrayBuffer = fileReader.result;
 		const data = new Uint8Array(this.arrayBuffer);
 		const arr = new Array();
