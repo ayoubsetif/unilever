@@ -2,7 +2,9 @@
     <input hidden  type='file' #btn accept=".xlsx" (change)="uploadConfigFile($event)">
     <button mat-raised-button color="primary" (click)="btn.click()">Import Config File</button>
     
-    <button mat-raised-button [routerLink]="['sales']" color="primary">Sales</button>
+    <button mat-raised-button [routerLink]="['sales-salemsan']" color="primary">Vente par vendeur</button>
+    <button mat-raised-button [routerLink]="['sales-customer']" color="primary">Vente par client</button>
+
 </div>
 
-<div class="version">v 0.0.1</div>
+<div class="version">v 0.0.2</div>

@@ -10,12 +10,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MainComponent } from './main/main.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SalesByCustomerComponent } from './sales-by-customer/sales-by-customer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SalesComponent,
-    MainComponent
+    MainComponent,
+    SalesByCustomerComponent
   ],
   imports: [
     BrowserModule,
