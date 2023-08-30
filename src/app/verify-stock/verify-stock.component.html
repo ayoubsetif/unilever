@@ -1,0 +1,62 @@
+<div class="vs-import">
+    <input hidden  type='file' #sasbtn accept=".xlsx" (change)="uploadSASFile($event)">
+    <button mat-raised-button color="primary" (click)="sasbtn.click()">Import stock SAS</button>
+
+    <input hidden  type='file' #erpbtn accept=".xls" (change)="uploadERPFile($event)">
+    <button mat-raised-button color="primary" (click)="erpbtn.click()">Import stock ERP</button>
+</div>
+
+<div class="select-placement">
+    <mat-form-field>
+        <mat-select [disabled]="!SASemplacement.length" (selectionChange)="selectSasEmplacement($event)"  placeholder="Choisir Emplacement SAS">
+            <mat-option *ngFor="let emplacement of SASemplacement" [value]="emplacement">
+                {{emplacement}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select [disabled]="!ERPemplacement.length" (selectionChange)="selectErpEmplacement($event)"  placeholder="Choisir Emplacement ERP">
+            <mat-option *ngFor="let emplacement of ERPemplacement" [value]="emplacement">
+                {{emplacement}}
+            </mat-option>
+        </mat-select>
+</mat-form-field> 
+</div>
+<div *ngIf="comparator.length">
+    <table mat-table [dataSource]="comparator" class="mat-elevation-z8">
+    
+        <ng-container matColumnDef="itemCode">
+          <th mat-header-cell *matHeaderCellDef> item Code </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemcode}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef> item Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sasQuantity">
+          <th mat-header-cell *matHeaderCellDef> quantity(SAS) </th>
+          <td mat-cell *matCellDef="let element"> {{element.sasQuantity}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="erpQuantity">
+            <th mat-header-cell *matHeaderCellDef> quantity(ERP) </th>
+            <td mat-cell *matCellDef="let element"> {{element.erpQuantity}} </td>
+          </ng-container>
+      
+        <ng-container matColumnDef="diff">
+          <th mat-header-cell *matHeaderCellDef> Différence </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr [ngClass]="{'bc-sas': row.quantity > 0 , 'bc-erp':row.quantity < 0 }" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="no-product">
+      <div *ngIf="selectedErp.length && selectedSas.length && !comparator.length" class="message-no-product">
+          pas de différence
+      </div>
+    </div>

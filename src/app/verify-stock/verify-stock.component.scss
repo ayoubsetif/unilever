@@ -1,0 +1,37 @@
+.select-placement {
+    .mat-mdc-form-field {
+        width: 500px;
+        margin-right: 10px;
+    }
+}
+
+.vs-import {
+	display: flex;
+	flex-direction: row;
+	margin-right: 10px;
+	align-self: baseline;
+	button {
+		margin: 2%;
+        width: 200px;
+	}
+}
+.bc-sas {
+	background-color: #e64848ba !important;
+}
+.bc-erp {
+	background-color: #646dd6e6 !important;
+}
+.no-product {
+	display: flex;
+	width: 100%;
+	height: 300px;
+	align-items: center;
+	justify-content: center;
+}
+.message-no-product {
+	font-size: 20px;
+	border: solid 1px black;
+	padding: 44px;
+	border-radius: 50%;
+	background-color: #f1a9a9;
+}

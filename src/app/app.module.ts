@@ -11,13 +11,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MainComponent } from './main/main.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SalesByCustomerComponent } from './sales-by-customer/sales-by-customer.component';
+import { VerifyStockComponent } from './verify-stock/verify-stock.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     AppComponent,
     SalesComponent,
     MainComponent,
-    SalesByCustomerComponent
+    SalesByCustomerComponent,
+    VerifyStockComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,8 @@ import { SalesByCustomerComponent } from './sales-by-customer/sales-by-customer.
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
