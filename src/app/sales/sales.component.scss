@@ -1,5 +1,4 @@
 .container {
-    height: 100%;
     align-items: center;
     display: flex;
 }
@@ -19,8 +18,15 @@
 	align-self: baseline;
 	button {
 		margin: 2%;
+		width: 230px;
 	}
 }
 .group-sales {
 	width: 230px;
+}
+.date-holder {
+	display: flex;
+	h4 {
+		margin-right: 25px;
+	}
 }

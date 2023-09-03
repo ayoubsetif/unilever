@@ -19,4 +19,29 @@
         </div>
     </div>
 </div>
+<div *ngIf="dashboard.length">
+  <div class="date-holder">
+    <h4>date debut: {{firstDate}} </h4><h4>date fin: {{lastDate}} </h4>
+  </div>
+   
 
+    <table mat-table [dataSource]="dashboard" class="mat-elevation-z8">
+        <ng-container matColumnDef="salesman">
+          <th mat-header-cell *matHeaderCellDef> Salesman </th>
+          <td mat-cell *matCellDef="let element"> {{ element.salesman }} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="totalNetValue">
+          <th mat-header-cell *matHeaderCellDef> total Net Value </th>
+          <td mat-cell *matCellDef="let element"> {{ element.netValue }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="orderStatus">
+          <th mat-header-cell *matHeaderCellDef> order Status </th>
+          <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>

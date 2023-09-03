@@ -14,6 +14,10 @@ export class SalesComponent {
 	sales: any = [];
 	data: any = [];
 	salesman: any = {};
+	dashboard: any = [];
+	displayedColumns: string[] = ['salesman', 'totalNetValue', 'orderStatus'];
+	firstDate: string = '';
+	lastDate: string = '';
 
 	ngOnInit() {
 		this.salesman =  JSON.parse(localStorage.getItem('configUnilever')!);
@@ -25,7 +29,21 @@ export class SalesComponent {
 		fileReader.onload = (e) => {
 			const worksheet = this.readFile(fileReader);
 			const arr = XLSX.utils.sheet_to_json(worksheet, {raw: true });
-			this.data = arr;
+			this.data = arr;	
+			this.firstDate = _.head(_.compact(_.uniq(arr.map((m: any) => m['DELIVERYDATE']))));
+			this.lastDate =  _.last(_.compact(_.uniq(arr.map((m: any) => m['DELIVERYDATE']))));
+			const dashbord: any = [];
+			const bySalesamn = _.groupBy(arr, 'SALESMAN_NAME');
+			Object.keys(bySalesamn).map(m => {
+				const aon = bySalesamn[m].map((p:any) => p['NET_VALUE']);
+				const netValue = _.reduce(aon, function(a, b) { return a + b; }, 0);
+				dashbord.push({
+					salesman: m,
+					netValue: netValue.toFixed(2),
+					status: _.compact(_.uniq(arr.map((m: any) => m['ORDER_STATUS'])))
+				})
+			})
+			this.dashboard = dashbord;
 			this.salesmanList = _.compact(_.uniq(arr.map((m: any) => m['SALESMAN_NAME'])));
 		};
 		fileReader.readAsArrayBuffer(this.file);
