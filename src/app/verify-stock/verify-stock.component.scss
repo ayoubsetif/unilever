@@ -9,10 +9,23 @@
 	display: flex;
 	flex-direction: row;
 	margin-right: 10px;
-	align-self: baseline;
+	justify-content: space-between;
+    align-items: center;
 	button {
 		margin: 2%;
         width: 200px;
+	}
+	.import-button {
+		display: flex;
+		flex-direction: row;
+	}
+	.download-button {
+		button {
+			background-color: #437254;
+		}
+		button:disabled {
+			background-color: #776d6d6b;
+		}
 	}
 }
 .bc-sas {

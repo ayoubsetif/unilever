@@ -1,9 +1,14 @@
 <div class="vs-import">
+  <div class="import-button">
     <input hidden  type='file' #sasbtn accept=".xlsx" (change)="uploadSASFile($event)">
     <button mat-raised-button color="primary" (click)="sasbtn.click()">Import stock SAS</button>
-
-    <input hidden  type='file' #erpbtn accept=".xls" (change)="uploadERPFile($event)">
-    <button mat-raised-button color="primary" (click)="erpbtn.click()">Import stock ERP</button>
+    
+      <input hidden  type='file' #erpbtn accept=".xls" (change)="uploadERPFile($event)">
+      <button mat-raised-button color="primary" (click)="erpbtn.click()">Import stock ERP</button>  
+  </div>
+  <div class="download-button">
+    <button  mat-raised-button  (click)="download()" [disabled]="!comparator.length">Télécharger</button>
+  </div>
 </div>
 
 <div class="select-placement">

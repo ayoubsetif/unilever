@@ -22,6 +22,7 @@ export class VerifyStockComponent {
 
   	uploadSASFile(event: any) {
 		this.file = event.target.files[0];
+		const fileName = event.target.files[0].name;
 		const fileReader = new FileReader();
 		fileReader.onload = (e) => {
 			const worksheet = this.readFile(fileReader);
@@ -32,7 +33,7 @@ export class VerifyStockComponent {
 				sas.push({
 					itemcode: l['ITEM_CODE'],
 					itemName: l['ITEM_NAME'],
-					quantity: l['QTY_IN_PIECE'],
+					quantity: fileName === 'Warehouse+QOH+stocks+deducting+reserved.xlsx' ? l['REMAINING_IN PIECE'] : l['QTY_IN_PIECE'] , // QTY_IN_PIECE
 					emplacement: l['ACCOUNT_NAME']
 				})
 			});
@@ -113,6 +114,20 @@ export class VerifyStockComponent {
 			}
 		});
 		return diff;
+	}
+
+	download() {
+		const compare: any = [];
+		this.comparator.forEach((e:any) => {
+			compare.push([e['itemcode'], e['itemName'], e['sasQuantity'], e['erpQuantity'], e['quantity']])
+		})
+		compare.unshift(['Item code', 'Item Name', 'Quantity(SaS)', 'Quantity(ErP)', 'Diff' ])
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(compare);
+		/* generate workbook and add the worksheet */
+		const wb: XLSX.WorkBook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+		/* save to file */
+		XLSX.writeFile(wb, `${this.comparator[0]['emplacement']}.xlsx`);
 	}
 
   	readFile(fileReader: any) {
