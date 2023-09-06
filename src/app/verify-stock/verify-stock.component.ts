@@ -33,7 +33,7 @@ export class VerifyStockComponent {
 				sas.push({
 					itemcode: l['ITEM_CODE'],
 					itemName: l['ITEM_NAME'],
-					quantity: fileName === 'Warehouse+QOH+stocks+deducting+reserved.xlsx' ? l['REMAINING_IN PIECE'] : l['QTY_IN_PIECE'] , // QTY_IN_PIECE
+					quantity: fileName.includes('Warehouse+QOH+stocks+deducting+reserved') ? l['REMAINING_IN PIECE'] : l['QTY_IN_PIECE'] , // QTY_IN_PIECE
 					emplacement: l['ACCOUNT_NAME']
 				})
 			});

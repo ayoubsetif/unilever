@@ -35,12 +35,14 @@ export class SalesComponent {
 			const dashbord: any = [];
 			const bySalesamn = _.groupBy(arr, 'SALESMAN_NAME');
 			Object.keys(bySalesamn).map(m => {
+				// console.log('m', m);
 				const aon = bySalesamn[m].map((p:any) => p['NET_VALUE']);
 				const netValue = _.reduce(aon, function(a, b) { return a + b; }, 0);
+				// console.log('status', _.compact(_.uniq(arr.filter((f:any)=> f['SALESMAN_NAME'] === m  ).map((m: any) => m['ORDER_STATUS']))))
 				dashbord.push({
 					salesman: m,
 					netValue: netValue.toFixed(2),
-					status: _.compact(_.uniq(arr.map((m: any) => m['ORDER_STATUS'])))
+					status: _.compact(_.uniq(arr.filter((f:any)=> f['SALESMAN_NAME'] === m  ).map((m: any) => m['ORDER_STATUS'])))
 				})
 			})
 			this.dashboard = dashbord;
