@@ -1,0 +1,14 @@
+.discount {
+    width: 50px !important;
+}
+.btn-containers {
+    display: flex;  
+    justify-content: space-between;
+    align-items: center;
+}
+
+.first-part {
+    mat-form-field {
+        margin-left: 10px;
+    }
+}

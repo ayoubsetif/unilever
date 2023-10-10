@@ -13,6 +13,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SalesByCustomerComponent } from './sales-by-customer/sales-by-customer.component';
 import { VerifyStockComponent } from './verify-stock/verify-stock.component';
 import { MatTableModule } from '@angular/material/table';
+import { AchatComponent } from './achat/achat.component';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDownloadDialogComponent } from './confirm-download-dialog/confirm-download-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +25,9 @@ import { MatTableModule } from '@angular/material/table';
     SalesComponent,
     MainComponent,
     SalesByCustomerComponent,
-    VerifyStockComponent
+    VerifyStockComponent,
+    AchatComponent,
+    ConfirmDownloadDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +37,11 @@ import { MatTableModule } from '@angular/material/table';
     MatFormFieldModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatTableModule
+    MatTableModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

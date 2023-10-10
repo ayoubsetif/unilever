@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Confirmation et validation</h1>
+<div mat-dialog-content>
+  <p>Voulez vous confirmer que le montant <span>{{totalTTC |  number : '1.2-2'}}</span> est equivalent au montant de la facture <span>{{invoiceNumber}}</span> ??? </p>
+ 
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="warn" (click)="onClick(false)">Non</button>
+  <button mat-button color="accent" (click)="onClick(true)" cdkFocusInitial>Télécharger</button>
+</div>
