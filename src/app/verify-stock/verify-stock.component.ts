@@ -27,7 +27,7 @@ export class VerifyStockComponent {
 		fileReader.onload = (e) => {
 			const worksheet = this.readFile(fileReader);
 			const arr = XLSX.utils.sheet_to_json(worksheet, {raw: true });
-			// console.log('data', arr)
+
 			const sas: any = [];
 			arr.forEach((l:any)=> {
 				sas.push({
@@ -79,6 +79,21 @@ export class VerifyStockComponent {
 
   	selectSasEmplacement(event: any) {
     	this.selectedSas = this.stockSas.filter((f:any) => f['emplacement'] === event.value);
+		//delete duplicated lines
+		const selectedSas: any = [];
+		const t = _.groupBy(this.selectedSas, 'itemcode');
+		Object.keys(t).map((m:any) => {
+			const aon = t[m].map((p:any) => p['quantity']);
+			const sum = _.reduce(aon, function(a, b) { return a + b; }, 0);
+			selectedSas.push({
+				itemcode: t[m][0]['itemcode'],
+				itemName: t[m][0]['itemName'],
+				quantity: sum,
+				emplacement: t[m][0]['emplacement']
+			})
+		});	
+		this.selectedSas = selectedSas;
+
     	this.comparator = this.compareArrays(this.selectedSas, this.selectedErp).filter((f:any) => f['quantity'] !== 0 && f['itemcode'] !== "");
 	}
 
