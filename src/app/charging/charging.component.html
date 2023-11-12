@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="vs-import">
+        <input hidden  type='file' #dmsbtn accept=".xls" (change)="uploadFile($event)">
+        <button mat-raised-button color="primary" (click)="dmsbtn.click()">Import stock Van Charging</button>
+    </div>
+    <mat-form-field class="form-width-1">
+        <mat-select [disabled]="!salesmanList.length" (selectionChange)="selectSalesman($event)"  placeholder="Choisir salesman" multiple>
+            <mat-option *ngFor="let vendor of salesmanList" [value]="vendor">
+                {{vendor}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form-width-2">
+        <mat-select [disabled]="!salesmanList.length && !postDate.length" (selectionChange)="selectPostDate($event)"  placeholder="Choisir date de postulation" multiple>
+            <mat-option *ngFor="let pdate of postDate" [value]="pdate.postDate">
+                {{ pdate.postDate }} {{ ( pdate.salesman)}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+
+<div class="vs-import-2">
+    <button class="group-sales" mat-raised-button color="primary" (click)="download()" [disabled]="!globaleCharging.length">Télécharger chaque vendeur/fichier</button>
+    <button class="group-sales" mat-raised-button color="primary" (click)="downloadGroupedTransfers()" [disabled]="!globaleCharging.length">Télécharger les chargements groupés</button>
+</div>

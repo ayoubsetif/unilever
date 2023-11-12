@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDownloadDialogComponent } from './confirm-download-dialog/confirm-download-dialog.component';
+import { ChargingComponent } from './charging/charging.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ConfirmDownloadDialogComponent } from './confirm-download-dialog/confir
     SalesByCustomerComponent,
     VerifyStockComponent,
     AchatComponent,
-    ConfirmDownloadDialogComponent
+    ConfirmDownloadDialogComponent,
+    ChargingComponent
   ],
   imports: [
     BrowserModule,

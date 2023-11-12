@@ -1,0 +1,26 @@
+.container {
+    align-items: center;
+    display: flex;
+}
+.form-width-1 {
+    width: 300px;
+    margin-right: 15px;
+}
+.form-width-2 {
+    width: 500px;
+}
+.vs-import {
+	display: flex;
+	flex-direction: column;
+	margin-right: 10px;
+	align-self: baseline;
+	button {
+		margin: 2%;
+		width: 330px;
+	}
+}
+.vs-import-2 {
+    button {
+		margin-right: 15px;
+	}
+}
