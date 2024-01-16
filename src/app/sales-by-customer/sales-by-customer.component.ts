@@ -16,6 +16,7 @@ export class SalesByCustomerComponent {
 	customers: any = [];
 	sales: any = [];
 	salesman: any = {};
+	selected: any = [];
 
 	ngOnInit() {
 		this.salesman =  JSON.parse(localStorage.getItem('configUnilever')!);
@@ -28,7 +29,6 @@ export class SalesByCustomerComponent {
 			const worksheet = this.readFile(fileReader);
 			const arr = XLSX.utils.sheet_to_json(worksheet, {raw: true });
 			this.data = arr;
-			//console.log('data', arr)
 			this.salesmanList = _.compact(_.uniqBy(arr.map((m: any) => ({ salesmanName: m['SALESMAN_NAME'], salesmanId: m['SALESMAN_CODE'] })), 'salesmanId'));
 			this.customerList = _.compact(_.uniqBy(arr.map((m: any) => ({ salesman: m['SALESMAN_NAME'], salesmanId: m['SALESMAN_CODE'] ,id: m['CUSTOMER_CODE'], name: m['CUSTOMER_NAME']})), 'id'));
 			this.customers = [...this.customerList];
@@ -36,12 +36,12 @@ export class SalesByCustomerComponent {
 		fileReader.readAsArrayBuffer(this.file);
 	}
 
-  selectVendor(event: any) {
-	let ct: any = [];
-	event.value.forEach((v: any) => {
-      	this.customerList.filter((f: any) => f['salesmanId'] === v).forEach((t: any) => { ct.push(t) })
-	});
-    this.customers = ct;
+  	selectVendor(event: any) {
+		let ct: any = [];
+		event.value.forEach((v: any) => {
+      		this.customerList.filter((f: any) => f['salesmanId'] === v).forEach((t: any) => { ct.push(t) })
+		});
+    	this.customers = ct;
 	}
 
     selectCustomer(event: any) {
@@ -94,7 +94,7 @@ export class SalesByCustomerComponent {
 			sale.push(aSale);
 		});
 		this.sales = sale;
-		console.log('sale', this.sales)
+		this.selected = event.value;
     }
 
 	download() {
@@ -159,6 +159,81 @@ export class SalesByCustomerComponent {
 
 		/* save to file */
 		XLSX.writeFile(wb, `Vente Globale.xlsx`);
+	}
+
+	downloadFiltredSales() {
+		const ss: any = [];
+		// not selected
+		_.difference(this.customers, this.selected).forEach((v: any) => {
+			this.data.filter((f:any) => f['CUSTOMER_CODE'] === v['id']).forEach((s: any) => {
+				ss.push({
+					id: s['ITEM_CODE'],
+					name: s['ITEM_NAME'],
+					price: '' ,
+					quantity: s['QTY_IN_PIECE'],
+					totalPrice: s['NET_VALUE'],
+					orderNumber: s['ORDERNO']
+				});
+			});
+		});
+		const sales: any = [];
+		Object.keys(_.groupBy(ss, 'id')).map(m => {
+			if (_.groupBy(ss, 'id')[m].length > 1) {
+				const t = _.groupBy(_.groupBy(ss, 'id')[m], 'id');
+				Object.keys(t).forEach(e => {
+					const freeSales = t[e].filter(f => f['totalPrice'] === 0);
+					const notFreeSales = t[e].filter(f => f['totalPrice'] !== 0);
+					
+					const aon =notFreeSales.map(p => p['totalPrice']);
+					const sum = _.reduce(aon, function(a, b) { return a + b; }, 0);
+
+					const aonq = notFreeSales.map(p => p['quantity']);
+					const sumq = _.reduce(aonq, function(a, b) { return a + b; }, 0);
+
+					if(sumq > 0 ) {
+						sales.push([t[e][0]['id'], t[e][0]['name'], '', sumq, sum / sumq , 0 ]);
+					}
+					const aonn =freeSales.map(p => p['totalPrice']);
+					const sumn = _.reduce(aonn, function(a, b) { return a + b; }, 0);
+
+					const aonqn = freeSales.map(p => p['quantity']);
+					const sumqn = _.reduce(aonqn, function(a, b) { return a + b; }, 0);
+					if(sumqn > 0 ) {
+						// total quantities more than 0 to avoid having articles with 0 quantity
+						sales.push([t[e][0]['id'], t[e][0]['name'], '', sumqn, sumn / sumqn , 0 ]);
+					}
+				})
+			} else {
+				const a = _.groupBy(ss, 'id')[m][0];
+				sales.push([a['id'], a['name'], '', a['quantity'], a['totalPrice'] / a['quantity'], a['totalPrice']  ]);
+			}
+		});
+		sales.forEach((sale: any) => {
+			sale.unshift(
+				this.salesman[this.customers[0]['salesman']]['Depot'], this.salesman[this.customers[0]['salesman']]['Marque'], this.salesman[this.customers[0]['salesman']]['vendeur'],
+				this.salesman[this.customers[0]['salesman']]['codeClient'], this.salesman[this.customers[0]['salesman']]['client'],
+				this.salesman[this.customers[0]['salesman']]['emplacement']
+			);
+		});
+
+		sales.forEach((s:any) => { s[11] = s[9] * s[10] });
+
+		sales.unshift([
+			'Entrepot ', 'Marque ', 'Vendeur',
+			'Code client', 'Client', 'Emplacement',
+			'Code Article', 'Article', 'Quantité conditionnée ',
+			'Quantité', 'Prix unitaire', 'Sous-total'
+		]);
+
+		// not optimal but why XD
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(<any>sales);
+
+		/* generate workbook and add the worksheet */
+		const wb: XLSX.WorkBook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(wb, ws, 'GlobalSales');
+
+		/* save to file */
+		XLSX.writeFile(wb, `Vente Globale ${this.customers[0]['salesman']}.xlsx`);
 	}
 
     readFile(fileReader: any) {

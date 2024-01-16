@@ -35,7 +35,6 @@ export class SalesComponent {
 			const dashbord: any = [];
 			const bySalesamn = _.groupBy(arr, 'SALESMAN_NAME');
 			Object.keys(bySalesamn).map(m => {
-				// console.log('m', m);
 				const aon = bySalesamn[m].map((p:any) => p['NET_VALUE']);
 				const netValue = _.reduce(aon, function(a, b) { return a + b; }, 0);
 				// console.log('status', _.compact(_.uniq(arr.filter((f:any)=> f['SALESMAN_NAME'] === m).map((m: any) => m['ORDER_STATUS']))))
@@ -87,7 +86,11 @@ export class SalesComponent {
 					})
 				} else {
 					const a = _.groupBy(ss, 'id')[m][0];
-					aSale['sales'].push([a['id'], a['name'], '', a['quantity'], a['totalPrice'] / a['quantity'], a['totalPrice']  ]);
+					if(a['totalPrice'] === 0) {
+						aSale['sales'].push([a['id'], a['name'], '', a['quantity'], 0.001, a['quantity'] * 0.001  ]);
+					} else {
+						aSale['sales'].push([a['id'], a['name'], '', a['quantity'], a['totalPrice'] / a['quantity'], a['totalPrice']  ]);
+					}
 				}
 			});
 			sale.push(aSale);
