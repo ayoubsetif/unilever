@@ -74,16 +74,27 @@ export class SalesByCustomerComponent {
 						const sumq = _.reduce(aonq, function(a, b) { return a + b; }, 0);
 
 						if(sumq > 0 ) {
-							aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumq, sum / sumq , 0 ]);
+							if(sum === 0 ) {
+								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumq, 0.001 , 0 ]);
+							} else {
+								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumq, sum / sumq , 0 ]);
+							}
 						}
+						
 						const aonn =freeSales.map(p => p['totalPrice']);
 						const sumn = _.reduce(aonn, function(a, b) { return a + b; }, 0);
 
 						const aonqn = freeSales.map(p => p['quantity']);
 						const sumqn = _.reduce(aonqn, function(a, b) { return a + b; }, 0);
+						
+						// total quantities more than 0 to avoid having articles with 0 quantity
 						if(sumqn > 0 ) {
-							// total quantities more than 0 to avoid having articles with 0 quantity
-							aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumqn, sumn / sumqn , 0 ]);
+							if(sumn === 0 ) {
+								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumqn, 0.001 , 0 ]);
+
+							} else {
+								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumqn, sumn / sumqn , 0 ]);
+							}
 						}
 					})
 				} else {
