@@ -109,13 +109,17 @@ export class SalesByCustomerComponent {
     }
 
 	download() {
-		const customerSales = JSON.parse(JSON.stringify(this.sales));		
+		const customerSales = JSON.parse(JSON.stringify(this.sales));	
 		customerSales.forEach((v:any) => {
 			const byOrder = _.groupBy(v['globalSales'], 'orderNumber');
 			Object.keys(byOrder).forEach(e => {
 				let sale: any = [];
 				byOrder[e].forEach(el => {
-					sale.push([el['id'], el['name'], '', el['quantity'], el['totalPrice'] / el['quantity'], el['totalPrice']])
+					if(el['totalPrice'] === 0) {
+						sale.push([el['id'], el['name'], '', el['quantity'], 0.001, el['quantity'] * 0.001])
+					} else {
+						sale.push([el['id'], el['name'], '', el['quantity'], el['totalPrice'] / el['quantity'], el['totalPrice']])
+					}
 				})					
 				sale.unshift(['Code Article', 'Article', 'Quantité conditionnée ', 'Quantité', 'Prix unitaire', 'Sous-total'  ])
 				const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sale);
