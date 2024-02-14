@@ -69,11 +69,16 @@ export class SalesComponent {
 				if (_.groupBy(ss, 'id')[m].length > 1) {
 					const t = _.groupBy(_.groupBy(ss, 'id')[m], 'id');
 					Object.keys(t).forEach(e => {
-						const aon = t[e].map(p => p['totalPrice']);
+						const freeSales = t[e].filter(f => f['totalPrice'] === 0);
+						const notFreeSales = t[e].filter(f => f['totalPrice'] !== 0);
+
+						const aon =notFreeSales.map(p => p['totalPrice']);
 						const sum = _.reduce(aon, function(a, b) { return a + b; }, 0);
 
-						const aonq = t[e].map(p => p['quantity']);
+						const aonq = notFreeSales.map(p => p['quantity']);
 						const sumq = _.reduce(aonq, function(a, b) { return a + b; }, 0);
+
+						//////////
 						if(sumq > 0 ) {
 							// total quantities more than 0 to avoid having articles with 0 quantity
 							if(sum === 0 ) {
@@ -81,6 +86,20 @@ export class SalesComponent {
 								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumq, 0.001  , 0  ]);
 							} else {
 								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumq, sum / sumq , 0 ]);
+							}
+						}
+
+						const aonn =freeSales.map(p => p['totalPrice']);
+						const sumn = _.reduce(aonn, function(a, b) { return a + b; }, 0);
+
+						const aonqn = freeSales.map(p => p['quantity']);
+						const sumqn = _.reduce(aonqn, function(a, b) { return a + b; }, 0);
+						if(sumqn > 0 ) {
+							if(sumn === 0 ) {
+								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumqn, 0.001 , 0 ]);
+
+							} else {
+								aSale['sales'].push([t[e][0]['id'], t[e][0]['name'], '', sumqn, sumn / sumqn , 0 ]);
 							}
 						}
 					})
