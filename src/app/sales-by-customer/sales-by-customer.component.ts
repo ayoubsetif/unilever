@@ -133,7 +133,11 @@ export class SalesByCustomerComponent {
 	downloadSingle() {
 		const vendorSales = JSON.parse(JSON.stringify(this.sales));
 		vendorSales.forEach((v:any) => {
+			v.sales.map((m:any) => {
+				if(m[4] === 0) { m[4] = 0.001 }
+			})
 			v.sales.map((m:any) => m[5] = m[4] * m[3]);
+
 			v.sales.unshift(['Code Article', 'Article', 'Quantité conditionnée ', 'Quantité', 'Prix unitaire', 'Sous-total'  ])
 			const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(v.sales);
 			/* generate workbook and add the worksheet */
