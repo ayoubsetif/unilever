@@ -160,7 +160,10 @@ export class SalesByCustomerComponent {
 			});
 		});
 		const globalSales = _.flatten(vendorSales.map((m: any) => m.sales));
-		globalSales.forEach((s:any) => { s[11] = s[9] * s[10] });
+		globalSales.forEach((s:any) => {
+			if(s[10] === 0) { s[10] = 0.001 }
+			s[11] = s[9] * s[10]
+		});
 
 		globalSales.unshift([
 			'Entrepot ', 'Marque ', 'Vendeur',
@@ -235,7 +238,10 @@ export class SalesByCustomerComponent {
 			);
 		});
 
-		sales.forEach((s:any) => { s[11] = s[9] * s[10] });
+		sales.forEach((s:any) => {
+			if(s[10] === 0) { s[10] = 0.001 }
+			s[11] = s[9] * s[10]
+		});
 
 		sales.unshift([
 			'Entrepot ', 'Marque ', 'Vendeur',
