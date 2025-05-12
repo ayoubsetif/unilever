@@ -39,7 +39,7 @@ export class AchatComponent {
   	selectInvoice(event: any) {
 		this.selectedInvoice = event.value;
     	const data: any = [];
-		const discount = 9.3;
+		const discount = 9.45;
     	this.data.filter((f:any) => f['TRANS_REF'] === event.value).forEach((el:any) => {
       	data.push({
         	code: el['ITEMNO'], name: el['ITEMNAMEA'], quantityCs: el['QTY_IN_CRT'], quantityEA: el['QTY_IN_PIECE'],
